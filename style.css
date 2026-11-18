@@ -1,0 +1,350 @@
+/* ---------- Couleurs et réglages : modifie ici ---------- */
+:root {
+  --fond: #eceeed;
+  --encre: #1c1f24;
+  --gris: #6b7078;
+  --trait: #c9ccd0;
+  --accent: #2f4fd8;
+  --marge: clamp(1.25rem, 5vw, 4rem);
+  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --hauteur: clamp(11rem, 28vw, 18rem);  /* hauteur des photos */
+  --ecart: 1rem;                          /* espace entre les photos */
+  --vitesse: 45s;                         /* secours : la vitesse se règle dans le script de index.html */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--police);
+  background: var(--fond);
+  color: var(--encre);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+a { color: inherit; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+img { display: block; }
+
+/* ---------- Navigation ---------- */
+.nav {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 1.25rem var(--marge);
+  border-bottom: 1px solid var(--trait);
+}
+.nav .nom { font-weight: 700; text-decoration: none; }
+.nav ul { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
+.nav li a, .nav li span { text-decoration: none; color: var(--gris); }
+.nav li a:hover { color: var(--accent); }
+
+/* ---------- Accueil ---------- */
+.accueil {
+  padding: clamp(4rem, 14vw, 10rem) var(--marge) clamp(3rem, 8vw, 6rem);
+  background-image:
+    repeating-linear-gradient(to bottom, var(--trait) 0 1px, transparent 1px var(--taille-carreau-y, 48px)),
+    repeating-linear-gradient(to right, var(--trait) 0 1px, transparent 1px var(--taille-carreau-x, 48px)),
+    linear-gradient(to right, transparent calc(100% - 1px), var(--trait) 0),
+    linear-gradient(to bottom, transparent calc(100% - 1px), var(--trait) 0);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid var(--trait);
+}
+.accueil h1 {
+  font-size: clamp(3rem, 11vw, 8.5rem);
+  font-weight: 800;
+  font-stretch: 80%;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  max-width: 12ch;
+}
+.accueil p {
+  margin-top: 2rem;
+  max-width: 48ch;
+  font-size: 1.2rem;
+  background: var(--fond);
+  display: inline-block;
+  padding: 0.25rem 0.5rem 0.25rem 0;
+}
+
+/* ---------- Catégories ---------- */
+.categorie { padding: clamp(3rem, 8vw, 6rem) 0; }
+.categorie + .categorie, .apropos-section, .contact-section { border-top: 1px solid var(--trait); }
+.categorie h2, .apropos-section h2, .contact-section h2 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  font-stretch: 85%;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+.categorie h2 { padding: 0 var(--marge); }
+.categorie h2 a { color: inherit; text-decoration: none; }
+.categorie h2 a:hover { color: var(--accent); }
+
+/* ---------- Lignes qui défilent ---------- */
+.ligne {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  touch-action: pan-x;
+  margin-bottom: var(--ecart);
+}
+.ligne::-webkit-scrollbar { display: none; }
+.ligne.glisse { cursor: grabbing; }
+.piste {
+  display: flex;
+  width: max-content;
+  animation: none;
+}
+
+.piste figure { margin-right: var(--ecart); flex: none; }
+.piste img, .piste .vide { height: var(--hauteur); width: auto; }
+.piste .vide {
+  background: #dcdfe1;
+  border: 1px solid var(--trait);
+  display: grid; place-items: center;
+  color: var(--gris);
+  font-size: 0.9rem;
+}
+.vide.paysage { width: calc(var(--hauteur) * 1.5); }
+.vide.portrait { width: calc(var(--hauteur) * 0.667); }
+
+/* Si le visiteur a réduit les animations dans son système : défilement à la main */
+@media (prefers-reduced-motion: reduce) {
+  .copie { display: none; }
+}
+
+/* ---------- À propos et contact ---------- */
+.apropos-section, .contact-section { padding: clamp(3rem, 8vw, 6rem) var(--marge); }
+.apropos { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+.apropos h2 { margin-bottom: 0; }
+.apropos p { max-width: 62ch; }
+.apropos p + p { margin-top: 1rem; }
+@media (min-width: 800px) {
+  .apropos { grid-template-columns: 1fr 2fr; }
+}
+.mail {
+  font-size: clamp(0.7rem, 2vw, 1.1rem);
+  font-weight: 600;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+.mail:hover { color: var(--accent); }
+
+footer {
+  padding: 1.5rem var(--marge);
+  border-top: 1px solid var(--trait);
+  color: var(--gris);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+  .nav { flex-direction: column; gap: 0.5rem; }
+}
+
+/* ---------- Photo en grand ---------- */
+.piste img { cursor: zoom-in; user-select: none; -webkit-user-drag: none; }
+.piste img:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.visionneuse {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 3.5rem 1rem 5rem;
+  overflow: hidden;
+  background: #101114;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.visionneuse[open] { display: flex; }
+.visionneuse::backdrop { background: #101114; }
+.visionneuse img {
+  display: block;
+  margin: 0 auto;
+  max-width: min(100%, 100vw);
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.visionneuse .fermer {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  margin: 0;
+  font: inherit;
+  background: rgba(16, 17, 20, .72);
+  border: 1px solid rgba(255,255,255,.45);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  color: #fff;
+}
+.visionneuse .fermer:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+.visionneuse .infos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 1.25rem;
+  position: absolute;
+  left: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  margin: 0;
+  padding: .5rem .75rem;
+  background: rgba(16, 17, 20, .72);
+  font-size: 0.95rem;
+}
+.visionneuse .infos:empty { display: none; }
+.visionneuse dt { color: #c4c7ce; }
+.visionneuse dd { margin: 0; }
+
+/* ---------- Menu déroulant (à gauche, s'ouvre au survol) ---------- */
+.gauche { display: flex; align-items: baseline; gap: 2.5rem; }
+.deroulant { position: relative; }
+.deroulant-bouton {
+  font: inherit;
+  color: var(--gris);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.deroulant-bouton::after {
+  content: "▾";
+  display: inline-block;
+  margin-left: 0.3em;
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+.deroulant:hover .deroulant-bouton,
+.deroulant.ouvert .deroulant-bouton { color: var(--accent); }
+.deroulant:hover .deroulant-bouton::after,
+.deroulant.ouvert .deroulant-bouton::after { transform: rotate(180deg); }
+.deroulant-bouton:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.nav .sous-menu {
+  display: block;                      /* annule l'affichage en ligne du menu */
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: 0;
+  min-width: 12rem;
+  background: var(--fond);
+  border: 1px solid var(--trait);
+  padding: 0.4rem 0;
+  z-index: 10;
+  /* fermé : invisible, légèrement remonté */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+}
+/* pont invisible : le menu ne se ferme pas quand la souris traverse l'espace sous le bouton */
+.nav .sous-menu::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: -0.8rem; height: 0.8rem;
+}
+/* ouvert : au survol, au toucher, ou au clavier */
+.deroulant:hover .sous-menu,
+.deroulant.ouvert .sous-menu,
+.deroulant:has(:focus-visible) .sous-menu {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+.sous-menu a { display: block; padding: 0.4rem 1rem; white-space: nowrap; }
+.sous-menu a:hover { color: var(--accent); }
+
+/* Sous-menus des événements */
+.nav .menu-parent { position: relative; }
+.nav .sous-sous-menu {
+  display: block;
+  position: absolute;
+  top: -0.4rem;
+  left: calc(100% - 0.15rem);
+  min-width: 13rem;
+  padding: .4rem 0;
+  background: var(--fond);
+  border: 1px solid var(--trait);
+  z-index: 12;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+}
+.nav .sous-menu > .menu-parent > .sous-sous-menu { top: 0; }
+.nav .menu-parent:hover > .sous-sous-menu,
+.nav .menu-parent:focus-within > .sous-sous-menu {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+.nav .sous-sous-menu li { display: block; }
+.nav .sous-sous-menu a { display: block; padding: .4rem 1rem; white-space: nowrap; }
+.nav .sous-sous-menu a:hover { color: var(--accent); }
+.evenements { margin-bottom: 2rem; }
+.evenement { padding: 1.5rem 0; border-top: 1px solid var(--trait); scroll-margin-top: 1rem; }
+.evenement h2, .evenement h3 { margin-bottom: .4rem; }
+.evenement p { color: var(--gris); }
+.actes { padding-left: 1rem; border-left: 1px solid var(--trait); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav .sous-menu, .deroulant-bouton::after { transition: none; }
+}
+
+/* ---------- Contact ---------- */
+.contacts { display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+
+/* ---------- Page Manifestation ---------- */
+.page-manifestation { --fond: #fff; background: #fff; }
+.manifestation-hero { padding-top: clamp(2rem, 6vw, 4rem); }
+.manifestation-hero p { margin: 0 0 2rem; background: none; }
+.manifestation-hero p a { color: var(--gris); text-decoration: none; }
+.manifestation-hero p a:hover { color: var(--accent); }
+.manifestation-hero h1 { max-width: none; }
+.jours-section { padding: 1.5rem 0 clamp(3rem, 8vw, 6rem); }
+.jours-entete { margin-bottom: 2rem; }
+.jours-entete .surtitre { color: var(--gris); text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; font-weight: 700; }
+.jours-entete h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: -.02em; }
+.jours { display: flex; gap: .65rem; flex-wrap: wrap; border-bottom: 1px solid var(--trait); margin-bottom: 2rem; padding-inline: var(--marge); }
+.jour { font: inherit; color: var(--gris); background: none; border: 0; border-bottom: 2px solid transparent; padding: .65rem .9rem; cursor: pointer; }
+.jour:hover, .jour.actif { color: var(--encre); border-bottom-color: var(--accent); }
+.sous-menu-actes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  padding: .75rem var(--marge);
+  border-bottom: 1px solid var(--trait);
+  margin-bottom: 2rem;
+  animation: sous-menu-apparition .2s ease both;
+}
+.sous-menu-actes[hidden] { display: none; }
+.sous-menu-actes .jour { text-align: left; white-space: nowrap; }
+.fleche-actes { display: inline-block; margin-left: .25rem; transition: transform .2s ease; }
+#mouvement-toggle[aria-expanded="true"] .fleche-actes { transform: rotate(180deg); }
+#mouvement-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.jours:has(#mouvement-toggle[aria-expanded="true"]) { margin-bottom: 0; }
+@keyframes sous-menu-apparition { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.jour-galerie { display: none; flex-wrap: wrap; gap: .3rem; align-content: flex-start; }
+.jour-galerie.actif { display: flex; animation: galerie-apparition .32s ease both; }
+@keyframes galerie-apparition { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.jour-galerie figure { flex: 0 0 auto; min-width: 0; height: clamp(180px, 22vw, 300px); margin: 0; overflow: hidden; background: #fff; }
+.jour-galerie img { display: block; width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
+.galerie-vide { color: var(--gris); padding: 3rem 0; }
+.jour-galerie img:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+@media (prefers-reduced-motion: reduce) {
+  .jour-galerie.actif, .sous-menu-actes { animation: none; }
+  .fleche-actes { transition: none; }
+}
